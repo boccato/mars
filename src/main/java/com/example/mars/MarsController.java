@@ -13,7 +13,7 @@ public class MarsController {
     private final AtomicLong counter = new AtomicLong();
 
     @RequestMapping("/rest/mars/{cmd}")
-    public String greeting(@PathVariable("cmd") String cmd) {
+    public String greeting(@PathVariable("cmd") String cmd) throws BadCommandException{
     	MarsTerrain terrain = new MarsTerrain(5, 5);
     	MarsPosition startPosition = new MarsPosition(0, 0, 'N');
     	MarsBotNavigator nav = new MarsBotNavigator(startPosition, terrain);
@@ -23,7 +23,7 @@ public class MarsController {
     		return finalPosition.get().toString();
     	}
     	else {
-    		return "Bad request.";
+    		throw new BadCommandException(cmd);
     	}
     }
 }
